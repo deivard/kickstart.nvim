@@ -361,11 +361,11 @@ require('lazy').setup({
         -- },
         --
         -- Border chars config recommended by gruvbox-baby
-        borderchars = {
-          prompt = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
-          results = { ' ' },
-          preview = { ' ' },
-        },
+        -- borderchars = {
+        --   prompt = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
+        --   results = { ' ' },
+        --   preview = { ' ' },
+        -- },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -723,8 +723,10 @@ require('lazy').setup({
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -734,6 +736,7 @@ require('lazy').setup({
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<Enter>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -773,34 +776,34 @@ require('lazy').setup({
 
   {
     'luisiacc/gruvbox-baby',
-    priority = 1000,
-    init = function()
-      vim.g.gruvbox_baby_function_style = 'bold'
-      vim.g.gruvbox_baby_telescope_theme = 1
-      vim.g.gruvbox_baby_transparent_mode = 1
-      -- vim.g.gruvbox_baby_keyword_style = 'NONE'
-      vim.cmd.colorscheme 'gruvbox-baby'
-    end,
+    -- priority = 1000,
+    -- init = function()
+    --   vim.g.gruvbox_baby_function_style = 'bold'
+    --   vim.g.gruvbox_baby_telescope_theme = 1
+    --   vim.g.gruvbox_baby_transparent_mode = 1
+    --   -- vim.g.gruvbox_baby_keyword_style = 'NONE'
+    --   vim.cmd.colorscheme 'gruvbox-baby'
+    -- end,
   },
 
-  -- { -- You can easily change to a different colorscheme.
-  --   -- Change the name of the colorscheme plugin below, and then
-  --   -- change the command in the config to whatever the name of that colorscheme is.
-  --   --
-  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  --   'folke/tokyonight.nvim',
-  --   priority = 1000, -- Make sure to load this before all the other start plugins.
-  --   init = function()
-  --     -- Load the colorscheme here.
-  --     -- Like many other themes, this one has different styles, and you could load
-  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  --     vim.cmd.colorscheme 'tokyonight-night'
-  --     -- vim.cmd.colorscheme 'gruvbox'
-  --
-  --     -- You can configure highlights by doing something like:
-  --     vim.cmd.hi 'Comment gui=none'
-  --   end,
-  -- },
+  { -- You can easily change to a different colorscheme.
+    -- Change the name of the colorscheme plugin below, and then
+    -- change the command in the config to whatever the name of that colorscheme is.
+    --
+    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+    'folke/tokyonight.nvim',
+    priority = 1000, -- Make sure to load this before all the other start plugins.
+    init = function()
+      -- Load the colorscheme here.
+      -- Like many other themes, this one has different styles, and you could load
+      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'gruvbox'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
+    end,
+  },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -917,6 +920,7 @@ require('lazy').setup({
 })
 
 vim.keymap.set('n', [[<C-\>]], 'gcc', { remap = true, desc = 'Toggle comments in visual mode' })
+-- vim.keymap.set('i', [[<C-\>]], '<Esc>gcci', { remap = true, desc = 'Toggle comments in visual mode' })
 vim.keymap.set('v', [[<C-\>]], 'gc', { remap = true, desc = 'Toggle comments in visual mode' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
