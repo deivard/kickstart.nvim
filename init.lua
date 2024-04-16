@@ -196,6 +196,11 @@ vim.keymap.set('n', '<C-h>', '10h', { desc = 'Move x steps' })
 vim.keymap.set('n', '<C-l>', '10l', { desc = 'Move x steps' })
 vim.keymap.set('n', '<C-j>', '10j', { desc = 'Move x steps' })
 vim.keymap.set('n', '<C-k>', '10k', { desc = 'Move x steps' })
+
+vim.keymap.set('v', '<C-h>', '10h', { desc = 'Move x steps' })
+vim.keymap.set('v', '<C-l>', '10l', { desc = 'Move x steps' })
+vim.keymap.set('v', '<C-j>', '10j', { desc = 'Move x steps' })
+vim.keymap.set('v', '<C-k>', '10k', { desc = 'Move x steps' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -482,7 +487,7 @@ require('lazy').setup({
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
+          -- NOTE: Remember that Lua is a rel programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
           --
           -- In this case, we create a function that lets us more easily define mappings specific
@@ -729,8 +734,8 @@ require('lazy').setup({
           ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-d>'] = cmp.mapping.scroll_docs(4),
 
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
@@ -776,34 +781,34 @@ require('lazy').setup({
 
   {
     'luisiacc/gruvbox-baby',
-    -- priority = 1000,
-    -- init = function()
-    --   vim.g.gruvbox_baby_function_style = 'bold'
-    --   vim.g.gruvbox_baby_telescope_theme = 1
-    --   vim.g.gruvbox_baby_transparent_mode = 1
-    --   -- vim.g.gruvbox_baby_keyword_style = 'NONE'
-    --   vim.cmd.colorscheme 'gruvbox-baby'
-    -- end,
-  },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+    priority = 1000,
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-      -- vim.cmd.colorscheme 'gruvbox'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      vim.g.gruvbox_baby_function_style = 'bold'
+      -- vim.g.gruvbox_baby_telescope_theme = 1
+      vim.g.gruvbox_baby_transparent_mode = 1
+      -- vim.g.gruvbox_baby_keyword_style = 'NONE'
+      vim.cmd.colorscheme 'gruvbox-baby'
     end,
   },
+
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'folke/tokyonight.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'tokyonight-night'
+  --     -- vim.cmd.colorscheme 'gruvbox'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -920,7 +925,7 @@ require('lazy').setup({
 })
 
 vim.keymap.set('n', [[<C-\>]], 'gcc', { remap = true, desc = 'Toggle comments in visual mode' })
--- vim.keymap.set('i', [[<C-\>]], '<Esc>gcci', { remap = true, desc = 'Toggle comments in visual mode' })
+vim.keymap.set('i', [[<C-\>]], '<Esc>gcci', { remap = true, desc = 'Toggle comments in visual mode' })
 vim.keymap.set('v', [[<C-\>]], 'gc', { remap = true, desc = 'Toggle comments in visual mode' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
