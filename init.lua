@@ -192,6 +192,11 @@ vim.keymap.set('n', '<A-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<A-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<A-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', '<C-w>L', '<cmd>vertical resize +5<cr>', { desc = 'Resize right' })
+vim.keymap.set('n', '<C-w>H', '<cmd>vertical resize -5<cr>', { desc = 'Resize left' })
+vim.keymap.set('n', '<C-w>K', '<cmd>resize +5<cr>', { desc = 'Resize up' })
+vim.keymap.set('n', '<C-w>J', '<cmd>resize -5<cr>', { desc = 'Resize down' })
+
 vim.keymap.set('n', '<C-h>', '10h', { desc = 'Move x steps' })
 vim.keymap.set('n', '<C-l>', '10l', { desc = 'Move x steps' })
 vim.keymap.set('n', '<C-j>', '10j', { desc = 'Move x steps' })
@@ -574,9 +579,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -728,10 +733,10 @@ require('lazy').setup({
         mapping = cmp.mapping.preset.insert {
           -- Select the [n]ext item
           ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<Tab>'] = cmp.mapping.select_next_item(),
+          -- ['<Tab>'] = cmp.mapping.select_next_item(),
           -- Select the [p]revious item
           ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          -- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-u>'] = cmp.mapping.scroll_docs(-4),
@@ -741,7 +746,7 @@ require('lazy').setup({
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<C-y>'] = cmp.mapping.confirm { select = true },
-          ['<Enter>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.confirm { select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -808,7 +813,7 @@ require('lazy').setup({
   --     -- You can configure highlights by doing something like:
   --     vim.cmd.hi 'Comment gui=none'
   --   end,
-  -- },
+  -- }
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -830,7 +835,20 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.surround').setup {
+        mappings = {
+          add = '<C-a>sa', -- Add surrounding in Normal and Visual modes
+          delete = '<C-a>sd', -- Delete surrounding
+          find = '<C-a>sf', -- Find surrounding (to the right)
+          find_left = '<C-a>sF', -- Find surrounding (to the left)
+          highlight = '<C-a>sh', -- Highlight surrounding
+          replace = '<C-a>sr', -- Replace surrounding
+          update_n_lines = '<C-a>sn', -- Update `n_lines`
+
+          suffix_last = 'l', -- Suffix to search with "prev" method
+          suffix_next = 'n', -- Suffix to search with "next" method
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -893,8 +911,8 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -928,5 +946,14 @@ vim.keymap.set('n', [[<C-\>]], 'gcc', { remap = true, desc = 'Toggle comments in
 vim.keymap.set('i', [[<C-\>]], '<Esc>gcci', { remap = true, desc = 'Toggle comments in visual mode' })
 vim.keymap.set('v', [[<C-\>]], 'gc', { remap = true, desc = 'Toggle comments in visual mode' })
 
+vim.keymap.set('i', '<S-Tab>', '<C-d>', { remap = false })
+vim.keymap.set('n', '<Tab>', '>>', { remap = false })
+vim.keymap.set('n', '<S-Tab>', '<<', { remap = false })
+
+vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
+vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+--
