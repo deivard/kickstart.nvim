@@ -177,6 +177,18 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set('t', 'kj', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Obsidian keybinds
+vim.keymap.set('n', '<leader>os', '<cmd>ObsidianSearch<cr>', { desc = '[O]bsidian [S]earch' })
+vim.keymap.set('n', '<leader>so', '<cmd>ObsidianSearch<cr>', { desc = '[S]earch [O]bsidian' })
+vim.keymap.set('n', '<leader>on', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian [N]ew' })
+vim.keymap.set('n', '<leader>oq', '<cmd>ObsidianYesterday<cr>', { desc = '[O]bsidian Yesterday' })
+vim.keymap.set('n', '<leader>ow', '<cmd>ObsidianToday<cr>', { desc = '[O]bsidian Today' })
+vim.keymap.set('n', '<leader>oe', '<cmd>ObsidianTomorrow<cr>', { desc = '[O]bsidian Tomorrow' })
+vim.keymap.set('n', '<leader>oW', '<cmd>ObsidianDailies<cr>', { desc = '[O]bsidian Dailies' })
+
+vim.keymap.set('n', '<leader>bd', '<cmd>w<cr><cmd>bd<cr>', { desc = '[B]uffer (write and) [D]elete' })
+-- vim.keymap.set('n', '<leader>on', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian [N]ew' })
+
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
@@ -206,6 +218,7 @@ vim.keymap.set('v', '<C-h>', '10h', { desc = 'Move x steps' })
 vim.keymap.set('v', '<C-l>', '10l', { desc = 'Move x steps' })
 vim.keymap.set('v', '<C-j>', '10j', { desc = 'Move x steps' })
 vim.keymap.set('v', '<C-k>', '10k', { desc = 'Move x steps' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -439,7 +452,11 @@ require('lazy').setup({
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
+      end, { desc = '[S]earch [n]eovim files' })
+
+      vim.keymap.set('n', '<leader>sN', function()
+        builtin.live_grep { cwd = vim.fn.stdpath 'config' }
+      end, { desc = '[S]earch [N]eovim files (live grep)' })
     end,
   },
 
@@ -667,7 +684,8 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
+        markdown = { 'markdownlint' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -837,13 +855,13 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup {
         mappings = {
-          add = '<C-a>sa', -- Add surrounding in Normal and Visual modes
-          delete = '<C-a>sd', -- Delete surrounding
-          find = '<C-a>sf', -- Find surrounding (to the right)
-          find_left = '<C-a>sF', -- Find surrounding (to the left)
-          highlight = '<C-a>sh', -- Highlight surrounding
-          replace = '<C-a>sr', -- Replace surrounding
-          update_n_lines = '<C-a>sn', -- Update `n_lines`
+          add = '<C-a>a', -- Add surrounding in Normal and Visual modes
+          delete = '<C-a>d', -- Delete surrounding
+          find = '<C-a>f', -- Find surrounding (to the right)
+          find_left = '<C-a>F', -- Find surrounding (to the left)
+          highlight = '<C-a>h', -- Highlight surrounding
+          replace = '<C-a>r', -- Replace surrounding
+          update_n_lines = '<C-a>n', -- Update `n_lines`
 
           suffix_last = 'l', -- Suffix to search with "prev" method
           suffix_next = 'n', -- Suffix to search with "next" method
@@ -952,6 +970,9 @@ vim.keymap.set('n', '<S-Tab>', '<<', { remap = false })
 
 vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
 vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
+
+vim.keymap.set({ 'v', 'n' }, 'gn', '<cmd>bn<cr>', { remap = true })
+vim.keymap.set({ 'v', 'n' }, 'gp', '<cmd>bp<cr>', { remap = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

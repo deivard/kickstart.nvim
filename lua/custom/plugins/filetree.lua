@@ -16,8 +16,10 @@ return {
           ['h'] = 'close_node',
         },
       },
+      -- buffers = { follow_current_file = { enabled = true } },
     }
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-b>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
+    vim.keymap.set({ 'i', 'n', 'v' }, '<C-e>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
     vim.keymap.set({ 'n', 'v' }, '<leader>nf', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-g>', '<cmd>Neotree float git_status<cr>', { remap = false })
     vim.keymap.set({ 'n', 'v' }, '<leader>ng', '<cmd>Neotree float git_status<cr>', { remap = false })
