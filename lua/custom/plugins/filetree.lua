@@ -10,13 +10,24 @@ return {
   },
   config = function()
     require('neo-tree').setup {
-      window = {
-        mappings = {
-          ['l'] = 'toggle_node',
-          ['h'] = 'close_node',
+      filesystem = {
+        bind_to_cwd = true, -- true creates a 2-way binding between vim's cwd and neo-tree's root
+        cwd_target = {
+          sidebar = 'tab', -- sidebar is when position = left or right
+          current = 'window', -- current is when position = current
         },
       },
-      -- buffers = { follow_current_file = { enabled = true } },
+      window = {
+        mappings = {
+          ['<space>'] = {
+            'toggle_node',
+            nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
+          },
+          ['l'] = 'toggle_node',
+          ['h'] = 'close_node',
+          -- [','] = vim.cmd 'Neotree dir=' .. vim.api.nvim_buf_get_name(1),
+        },
+      },
     }
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-b>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-e>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
