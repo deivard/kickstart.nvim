@@ -186,7 +186,7 @@ vim.keymap.set('n', '<leader>ow', '<cmd>ObsidianToday<cr>', { desc = '[O]bsidian
 vim.keymap.set('n', '<leader>oe', '<cmd>ObsidianTomorrow<cr>', { desc = '[O]bsidian Tomorrow' })
 vim.keymap.set('n', '<leader>oW', '<cmd>ObsidianDailies<cr>', { desc = '[O]bsidian Dailies' })
 
-vim.keymap.set('n', '<leader>bd', '<cmd>w<cr><cmd>bd<cr>', { desc = '[B]uffer (write and) [D]elete' })
+-- vim.keymap.set('n', '<leader>bd', '<cmd>w<cr><cmd>bd<cr>', { desc = '[B]uffer (write and) [D]elete' })
 -- vim.keymap.set('n', '<leader>on', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian [N]ew' })
 
 -- TIP: Disable arrow keys in normal mode
@@ -847,6 +847,7 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       --
       require('mini.ai').setup { n_lines = 500 }
+      require('mini.files').setup()
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --

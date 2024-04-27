@@ -30,7 +30,11 @@ return {
     --  * "current_dir" - put new notes in same directory as the current buffer.
     --  * "notes_subdir" - put new notes in the default notes subdirectory.
     new_notes_location = '0-inbox',
-
+    daily_notes = {
+      -- Optional, if you keep daily notes in a separate directory.
+      folder = '00-zettelkasten/dailies',
+      template = "<% moment(tp.file.title,'YYYY-MM-DD').format('dddd, MMMM DD, YYYY') %>",
+    },
     -- Optional, customize how note IDs are generated given an optional title.
     ---@param title string|?
     ---@return string
