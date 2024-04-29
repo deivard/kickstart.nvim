@@ -599,6 +599,7 @@ require('lazy').setup({
         clangd = {},
         -- gopls = {},
         pyright = {},
+        debugpy = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -929,7 +930,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
 
@@ -975,6 +976,7 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
 vim.keymap.set({ 'v', 'n' }, 'gn', '<cmd>bn<cr>', { remap = true })
 vim.keymap.set({ 'v', 'n' }, 'gp', '<cmd>bp<cr>', { remap = true })
 
+vim.keymap.set({ 'v', 'n' }, '<C-e>', '<cmd>lua MiniFiles.open()<cr>', { remap = true })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 --
