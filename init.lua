@@ -185,6 +185,7 @@ vim.keymap.set('n', '<leader>oq', '<cmd>ObsidianYesterday<cr>', { desc = '[O]bsi
 vim.keymap.set('n', '<leader>ow', '<cmd>ObsidianToday<cr>', { desc = '[O]bsidian Today' })
 vim.keymap.set('n', '<leader>oe', '<cmd>ObsidianTomorrow<cr>', { desc = '[O]bsidian Tomorrow' })
 vim.keymap.set('n', '<leader>oW', '<cmd>ObsidianDailies<cr>', { desc = '[O]bsidian Dailies' })
+vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianTemplate<cr>', { desc = '[O]bsidian [T]emplate' })
 
 -- vim.keymap.set('n', '<leader>bd', '<cmd>w<cr><cmd>bd<cr>', { desc = '[B]uffer (write and) [D]elete' })
 -- vim.keymap.set('n', '<leader>on', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian [N]ew' })
@@ -693,6 +694,13 @@ require('lazy').setup({
         -- javascript = { { "prettierd", "prettier" } },
       },
     },
+    config = function(_, opts)
+      require('conform').setup(opts)
+
+      require('conform').formatters_by_ft.markdown = {
+        prepend_args = { '--disable', 'MD013' },
+      }
+    end,
   },
 
   { -- Autocompletion
@@ -848,7 +856,7 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       --
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.files').setup()
+      require('mini.files').setup { windows = { preview = true } }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --

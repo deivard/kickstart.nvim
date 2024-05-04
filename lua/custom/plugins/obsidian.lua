@@ -26,15 +26,47 @@ return {
       --   path = "~/obsidian-vaults/",
       -- },
     },
+
+    templates = {
+      subdir = 'templates',
+      date_format = '%Y-%m-%d %A',
+      time_format = '%H:%M',
+    },
     -- Where to put new notes. Valid options are
     --  * "current_dir" - put new notes in same directory as the current buffer.
     --  * "notes_subdir" - put new notes in the default notes subdirectory.
-    new_notes_location = '0-inbox',
+    new_notes_location = 'notes_subdir',
+    notes_subdir = '0-inbox',
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.
       folder = '00-zettelkasten/dailies',
-      template = "<% moment(tp.file.title,'YYYY-MM-DD').format('dddd, MMMM DD, YYYY') %>",
+      -- template = "<% moment(tp.file.title,'YYYY-MM-DD').format('dddd, MMMM DD, YYYY') %>",
+      template = 'daily_note',
     },
+
+    -- Optional, alternatively you can customize the frontmatter data.
+    ---@return table
+    note_frontmatter_func = function(note)
+      -- Add the title of the note as an alias.
+      if note.title then
+        note:add_alias(note.title)
+      end
+
+      local date = tostring(os.date '%Y-%m-%d, %H:%M')
+
+      local out = { id = note.id, aliases = note.aliases, tags = note.tags, created = date, modified = date }
+
+      -- `note.metadata` contains any manually added fields in the frontmatter.
+      -- So here we just make sure those fields are kept in the frontmatter.
+      if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+        for k, v in pairs(note.metadata) do
+          out[k] = v
+        end
+      end
+
+      return out
+    end,
+
     -- Optional, customize how note IDs are generated given an optional title.
     ---@param title string|?
     ---@return string
@@ -52,7 +84,7 @@ return {
           suffix = suffix .. string.char(math.random(65, 90))
         end
       end
-      return tostring(os.time()) .. '-' .. suffix
+      return tostring(os.date '%Y-%m-%d') .. ' ' .. suffix
     end,
   },
   config = function(_, opts)
