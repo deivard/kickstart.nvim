@@ -2,7 +2,7 @@ return {
   'michaelb/sniprun',
   branch = 'master',
 
-  build = 'sh install.sh',
+  build = 'sh install.sh 1',
   config = function()
     require('sniprun').setup {}
     vim.api.nvim_set_keymap('v', 'f', '<Plug>SnipRun', { silent = true })
