@@ -644,6 +644,7 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -999,6 +1000,12 @@ vim.keymap.set('n', '<S-Tab>', '<<', { remap = false })
 vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
 vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
 
+vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
+vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
+
+vim.keymap.set('n', '<C-A-l>', '<cmd>bn<cr>', { remap = false })
+vim.keymap.set('n', '<C-A-h>', '<cmd>bp<cr>', { remap = false })
+
 vim.keymap.set({ 'v', 'n' }, 'gn', '<cmd>bn<cr>', { remap = true })
 vim.keymap.set({ 'v', 'n' }, 'gp', '<cmd>bp<cr>', { remap = true })
 
@@ -1016,3 +1023,10 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost' }, {
     end
   end,
 })
+
+vim.filetype.add {
+  extension = {
+    qrc = 'xml',
+    ts = 'xml',
+  },
+}
