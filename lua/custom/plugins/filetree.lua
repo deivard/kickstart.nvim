@@ -16,6 +16,7 @@ return {
           sidebar = 'tab', -- sidebar is when position = left or right
           current = 'window', -- current is when position = current
         },
+        hijack_netrw_behavior = 'disabled',
       },
       window = {
         mappings = {
@@ -30,7 +31,7 @@ return {
       },
     }
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-b>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
-    vim.keymap.set({ 'i', 'n', 'v' }, '<C-e>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
+    -- vim.keymap.set({ 'i', 'n', 'v' }, '<C-e>', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
     vim.keymap.set({ 'n', 'v' }, '<leader>nf', '<cmd>Neotree toggle focus filesystem left<cr>', { remap = false })
     vim.keymap.set({ 'i', 'n', 'v' }, '<C-g>', '<cmd>Neotree float git_status<cr>', { remap = false })
     vim.keymap.set({ 'n', 'v' }, '<leader>ng', '<cmd>Neotree float git_status<cr>', { remap = false })
