@@ -396,6 +396,14 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          mappings = {
+            -- ['q'] = require('telescope.actions').close
+            n = {
+              ['q'] = 'close',
+            },
+          },
+        },
         pickers = {
           buffers = {
             show_all_buffers = true,
@@ -774,7 +782,7 @@ require('lazy').setup({
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<C-y>'] = cmp.mapping.confirm { select = true },
-          ['<Tab>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -857,7 +865,7 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       --
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.files').setup { windows = { preview = true } }
+      require('mini.files').setup { windows = { preview = true, width_preview = 75, width_focus = 30 } }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
