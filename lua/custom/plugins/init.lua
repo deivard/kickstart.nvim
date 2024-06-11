@@ -26,7 +26,7 @@ return {
   {
     'tris203/precognition.nvim',
     --event = "VeryLazy",
-    vim.keymap.set('n', '<C-Space>', '<cmd>Precognition toggle<cr>'),
+    vim.keymap.set('n', '<C-A-Space>', '<cmd>Precognition toggle<cr>'),
     config = {
       startVisible = false,
 
