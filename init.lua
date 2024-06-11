@@ -402,6 +402,15 @@ require('lazy').setup({
             n = {
               ['q'] = 'close',
               ['L'] = 'select_default',
+
+              ['<C-l>'] = 'select_default',
+              ['<C-h>'] = 'close',
+
+              ['<l>'] = 'select_default',
+              ['<h>'] = 'close',
+
+              ['<C-k>'] = 'move_selection_previous',
+              ['<C-j>'] = 'move_selection_next',
             },
           },
         },
@@ -877,7 +886,11 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       --
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.files').setup { windows = { preview = true, width_preview = 75, width_focus = 30 } }
+      require('mini.files').setup {
+        windows = { preview = true, width_preview = 75, width_focus = 30 },
+        -- mappings = {
+        -- },
+      }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
