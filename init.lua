@@ -481,7 +481,7 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
+      -- `neodev` configures Lua Lrequire'lspconfig'.qmlls.setup{}SP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
     },
@@ -568,6 +568,8 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          map('gh', '<cmd>ClangdSwitchSourceHeader<cr>', '[G]oto switch source [h]eader')
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -605,7 +607,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
+        clangd = {
+          cmd = { '/home/jdev/.local/share/nvim/mason/bin/clangd', '--header-insertion=never' },
+        },
         -- gopls = {},
         pyright = {},
         debugpy = {},
@@ -648,6 +652,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'clangd',
+        -- 'pyright'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -664,6 +670,8 @@ require('lazy').setup({
           end,
         },
       }
+
+      require('lspconfig').qmlls.setup {}
     end,
   },
 
