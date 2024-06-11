@@ -401,12 +401,15 @@ require('lazy').setup({
             -- ['q'] = require('telescope.actions').close
             n = {
               ['q'] = 'close',
+              ['L'] = 'select_default',
             },
           },
         },
         pickers = {
           buffers = {
             show_all_buffers = true,
+            sort_lastused = true,
+            -- ignore_current_buffer = true,
             sort_mru = true,
             mappings = {
               i = {
@@ -438,7 +441,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader><leader>', '<cmd>Telescope buffers<cr><esc>', { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -1010,7 +1013,7 @@ vim.keymap.set('i', [[<C-\>]], '<Esc>gcci', { remap = true, desc = 'Toggle comme
 vim.keymap.set('v', [[<C-\>]], 'gc', { remap = true, desc = 'Toggle comments in visual mode' })
 
 vim.keymap.set('i', '<S-Tab>', '<C-d>', { remap = false })
-vim.keymap.set('n', '<Tab>', '>>', { remap = false })
+vim.keymap.set('n', '<leader><Tab>', '>>', { remap = false })
 vim.keymap.set('n', '<S-Tab>', '<<', { remap = false })
 
 vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
@@ -1019,8 +1022,12 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
 vim.keymap.set('v', '<Tab>', '>gv', { remap = false })
 vim.keymap.set('v', '<S-Tab>', '<gv', { remap = false })
 
-vim.keymap.set('n', '<C-A-l>', '<cmd>bn<cr>', { remap = false })
-vim.keymap.set('n', '<C-A-h>', '<cmd>bp<cr>', { remap = false })
+-- vim.keymap.set('n', '<C-A-l>', '<cmd>bn<cr>', { remap = false })
+-- vim.keymap.set('n', '<C-A-h>', '<cmd>bp<cr>', { remap = false })
+vim.keymap.set('n', '<C-A-l>', '<C-i>', { remap = false })
+vim.keymap.set('n', '<C-A-h>', '<C-o>', { remap = false })
+vim.keymap.set('n', '<C-A-k>', '<cmd>bn<cr>', { remap = false })
+vim.keymap.set('n', '<C-A-j>', '<cmd>bp<cr>', { remap = false })
 
 vim.keymap.set({ 'v', 'n' }, 'gn', '<cmd>bn<cr>', { remap = true })
 vim.keymap.set({ 'v', 'n' }, 'gp', '<cmd>bp<cr>', { remap = true })
