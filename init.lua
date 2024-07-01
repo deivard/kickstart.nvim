@@ -559,7 +559,9 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>ds', function()
+            require('telescope.builtin').lsp_document_symbols { symbol_width = 35 }
+          end, '[D]ocument [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -717,11 +719,17 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
+        -- python = { 'black' },
         markdown = { 'markdownlint' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
+      },
+      formatters = {
+        black = {
+          prepend_args = { '--preview', '--enable-unstable-feature', 'string_processing' },
+        },
       },
     },
     config = function(_, opts)
@@ -803,7 +811,7 @@ require('lazy').setup({
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ['<C-y>'] = cmp.mapping.confirm { select = true },
-          ['<Tab>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+          ['<Tab>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -946,7 +954,10 @@ require('lazy').setup({
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      -- indent = {
+      --   enable = true,
+      --   disable = { 'ruby' },
+      -- },
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -1067,3 +1078,33 @@ vim.filetype.add {
     ts = 'xml',
   },
 }
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  group = vim.api.nvim_create_augroup('FormatOptions', { clear = true }),
+  pattern = { '*' },
+  callback = function()
+    vim.opt_local.fo:remove 'o'
+    vim.opt_local.fo:remove 'r'
+  end,
+})
+-- m.opt.formatoptions:remove 'o'
+
+-- vim.o.formatoptions:remove {'c', 'r', 'o'}
+--
+
+-- wk.register({ p = { name = "Perf Profiling" } }, { prefix = "<leader>u" })
+
+vim.keymap.set('n', '<leader>ups', function()
+  vim.cmd [[
+		:profile start /tmp/nvim-profile.log
+		:profile func *
+		:profile file *
+	]]
+end, { desc = 'Profile Start' })
+
+vim.keymap.set('n', '<leader>upe', function()
+  vim.cmd [[
+		:profile stop
+		:e /tmp/nvim-profile.log
+	]]
+end, { desc = 'Profile End' })
