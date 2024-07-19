@@ -270,6 +270,14 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
 
+  {
+    'norcalli/nvim-colorizer.lua',
+    -- config = function()
+    --   require('colorizer').setup()
+    -- end,
+    opts = { '*' },
+  },
+
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
@@ -499,6 +507,23 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
+      local border = {
+        { '╭', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╮', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+        { '╯', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╰', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+      }
+      -- To instead override globally
+      local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+        opts = opts or {}
+        opts.border = opts.border or border
+        return orig_util_open_floating_preview(contents, syntax, opts, ...)
+      end
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -792,6 +817,16 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
+        window = {
+          completion = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+          documentation = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+        },
         completion = { completeopt = 'menu,menuone,noinsert' },
 
         -- For an understanding of why these mappings were
@@ -856,11 +891,12 @@ require('lazy').setup({
     'luisiacc/gruvbox-baby',
     priority = 1000,
     init = function()
-      vim.g.gruvbox_baby_function_style = 'bold'
+      vim.g.gruvbox_baby_function_style = 'NONE'
       -- vim.g.gruvbox_baby_telescope_theme = 1
       vim.g.gruvbox_baby_transparent_mode = 1
       -- vim.g.gruvbox_baby_keyword_style = 'NONE'
       vim.cmd.colorscheme 'gruvbox-baby'
+      vim.opt.cursorline = false
     end,
   },
 
