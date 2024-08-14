@@ -696,6 +696,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'clangd',
+        'clang-format',
         -- 'pyright'
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -749,6 +750,7 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         -- python = { 'black' },
         markdown = { 'markdownlint' },
+        cpp = { 'clang-format' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -789,12 +791,25 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+              require('luasnip').filetype_extend('typescript', { 'tsdoc' })
+              require('luasnip').filetype_extend('javascript', { 'jsdoc' })
+              require('luasnip').filetype_extend('lua', { 'luadoc' })
+              require('luasnip').filetype_extend('python', { 'pydoc' })
+              require('luasnip').filetype_extend('rust', { 'rustdoc' })
+              require('luasnip').filetype_extend('cs', { 'csharpdoc' })
+              require('luasnip').filetype_extend('java', { 'javadoc' })
+              require('luasnip').filetype_extend('c', { 'cdoc' })
+              require('luasnip').filetype_extend('cpp', { 'cppdoc' })
+              require('luasnip').filetype_extend('php', { 'phpdoc' })
+              require('luasnip').filetype_extend('kotlin', { 'kdoc' })
+              require('luasnip').filetype_extend('ruby', { 'rdoc' })
+              require('luasnip').filetype_extend('sh', { 'shelldoc' })
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
