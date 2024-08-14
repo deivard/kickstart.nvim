@@ -748,9 +748,9 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
-        -- python = { 'black' },
-        markdown = { 'markdownlint' },
-        cpp = { 'clang-format' },
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
+        -- markdown = { 'markdownlint' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -759,6 +759,10 @@ require('lazy').setup({
       formatters = {
         black = {
           prepend_args = { '--preview', '--enable-unstable-feature', 'string_processing' },
+        },
+
+        clang_format = {
+          prepend_args = { '--style=file', '--fallback-style=LLVM' },
         },
       },
     },

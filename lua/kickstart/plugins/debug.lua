@@ -45,6 +45,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         -- 'delve',
         'debugpy',
+        'codelldb',
       },
     }
 
@@ -98,6 +99,14 @@ return {
     require('dap-go').setup()
 
     require('dap-python').setup '~/.local/share/nvim/mason/packages/debugpy/venv/bin/python'
+
+    -- dap.adapters.codelldb = {
+    --   type = "server",
+    --   port = "${port}",
+    --   executable = {
+    --     command = ""
+    --   }
+    -- }
 
     vim.keymap.set('n', '<leader>df', require('dap-python').test_method, { desc = 'Debug: Test method ([f]unction)' })
     vim.keymap.set('n', '<leader>dc', require('dap-python').test_class, { desc = 'Debug: Test [c]lass' })
