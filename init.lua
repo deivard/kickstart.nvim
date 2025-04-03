@@ -963,20 +963,35 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
+      -- local surround_prefix = '<C-a>'
+      local surround_prefix = 's'
       require('mini.surround').setup {
         mappings = {
-          add = '<C-a>a', -- Add surrounding in Normal and Visual modes
-          delete = '<C-a>d', -- Delete surrounding
-          find = '<C-a>f', -- Find surrounding (to the right)
-          find_left = '<C-a>F', -- Find surrounding (to the left)
-          highlight = '<C-a>h', -- Highlight surrounding
-          replace = '<C-a>r', -- Replace surrounding
-          update_n_lines = '<C-a>n', -- Update `n_lines`
+          add = surround_prefix .. 'a', -- Add surrounding in Normal and Visual modes
+          delete = surround_prefix .. 'd', -- Delete surrounding
+          find = surround_prefix .. 'f', -- Find surrounding (to the right)
+          find_left = surround_prefix .. 'F', -- Find surrounding (to the left)
+          highlight = surround_prefix .. 'h', -- Highlight surrounding
+          replace = surround_prefix .. 'r', -- Replace surrounding
+          update_n_lines = surround_prefix .. 'n', -- Update `n_lines`
 
           suffix_last = 'l', -- Suffix to search with "prev" method
           suffix_next = 'n', -- Suffix to search with "next" method
+
+          -- add = 'sa', -- Add surrounding in Normal and Visual modes
+          -- delete = 'sd', -- Delete surrounding
+          -- find = 'sf', -- Find surrounding (to the right)
+          -- find_left = 'sF', -- Find surrounding (to the left)
+          -- highlight = 'sh', -- Highlight surrounding
+          -- replace = 'sr', -- Replace surrounding
+          -- update_n_lines = 'sn', -- Update `n_lines`
+          --
+          -- suffix_last = 'l', -- Suffix to search with "prev" method
+          -- suffix_next = 'n', -- Suffix to search with "next" method
         },
       }
+
+      vim.api.nvim_set_keymap('n', 's', '', { noremap = true })
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1166,3 +1181,5 @@ vim.keymap.set('n', '<leader>upe', function()
 		:e /tmp/nvim-profile.log
 	]]
 end, { desc = 'Profile End' })
+
+vim.keymap.set('i', '<C-e>', '<End>', { noremap = true })
