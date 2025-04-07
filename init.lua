@@ -654,7 +654,13 @@ require('lazy').setup({
           cmd = { '/home/jdev/.local/share/nvim/mason/bin/clangd', '--header-insertion=never' },
         },
         -- gopls = {},
-        pyright = {},
+        pyright = {
+          python = {
+            analysis = {
+              typeCheckingMode = 'off',
+            },
+          },
+        },
         debugpy = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

@@ -17,14 +17,14 @@ return {
   },
   opts = {
     workspaces = {
-      {
-        name = 'personal',
-        path = '~/obsidian-vaults/the-lyceum/The Lyceum/',
-      },
       -- {
-      --   name = "work",
-      --   path = "~/obsidian-vaults/",
+      --   name = 'personal',
+      --   path = '~/obsidian-vaults/the-lyceum/The Lyceum/',
       -- },
+      {
+        name = 'work',
+        path = '/mnt/c/Users/Johannes.Deivard/OneDrive - Trakkasystems AB/Documents/ObsidianVaults/trakkvault/',
+      },
     },
 
     templates = {
@@ -39,7 +39,7 @@ return {
     notes_subdir = '0-inbox',
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.
-      folder = '00-zettelkasten/dailies',
+      folder = '0-inbox',
       -- template = "<% moment(tp.file.title,'YYYY-MM-DD').format('dddd, MMMM DD, YYYY') %>",
       template = 'daily_note',
     },
