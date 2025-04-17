@@ -1189,3 +1189,5 @@ vim.keymap.set('n', '<leader>upe', function()
 end, { desc = 'Profile End' })
 
 vim.keymap.set('i', '<C-e>', '<End>', { noremap = true })
+
+vim.keymap.set('v', 'p', 'P')
