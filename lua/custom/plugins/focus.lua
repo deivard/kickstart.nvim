@@ -3,7 +3,7 @@ return {
   version = '*',
   enable = true,
   opts = {
-    ui = { cursorline = false },
+    ui = { cursorline = false, signcolumn = false },
     autoresize = {
       enable = true,
     },
