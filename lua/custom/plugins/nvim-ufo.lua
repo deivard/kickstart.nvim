@@ -1,6 +1,6 @@
 return {
   'kevinhwang91/nvim-ufo',
-  version = 'v1.4.0',
+  version = 'v1.5.0',
   dependencies = {
     'kevinhwang91/promise-async',
     {
