@@ -494,6 +494,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sN', function()
         builtin.live_grep { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files (live grep)' })
+
+      -- Search files with no_ignore=True
+      vim.keymap.set('n', '<leader>sF', function()
+        builtin.find_files { no_ignore = true, follow = true, hidden = true }
+      end, { desc = '[S]earch [F]iles (include .gitignored)' })
+
+      vim.keymap.set('n', '<leader>sG', function()
+        builtin.live_grep { no_ignore = true, follow = true, hidden = true }
+      end, { desc = '[S]earch by [G]rep (include .gitignored)' })
     end,
   },
 
@@ -1214,6 +1223,3 @@ vim.filetype.add {
 }
 
 vim.opt.cmdheight = 0
-
-
-
