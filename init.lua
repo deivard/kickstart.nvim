@@ -389,6 +389,7 @@ require('lazy').setup({
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+      local actions = require 'telescope.actions'
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
@@ -426,6 +427,10 @@ require('lazy').setup({
 
               ['<C-k>'] = 'move_selection_previous',
               ['<C-j>'] = 'move_selection_next',
+              ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
+            },
+            i = {
+              ['<C-q>'] = actions.smart_send_to_qflist + actions.open_qflist,
             },
           },
         },
@@ -454,7 +459,6 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      -- local actions = require 'telescope.actions'
       -- vim.keymap.set('n', '<C-d>', actions.delete_buffer { desc = 'Delete marked buffer' })
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -468,6 +472,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader><leader>', '<cmd>Telescope buffers<cr><esc>', { desc = '[ ] Find existing buffers' })
       vim.keymap.set('n', '<C-space>', '<cmd>Telescope buffers<cr><esc>', { desc = '[ ] Find existing buffers' })
 
+      -- vim.keymap.set('n', '<C-q>', actions.smart_send_to_qflist + actions.open_qflist, { desc = 'Smart send to quickfix list' })
+      -- vim.keymap.set('i', '<C-q>', actions.smart_send_to_qflist + actions.open_qflist, { desc = 'Smart send to quickfix list' })
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
