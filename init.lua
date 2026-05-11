@@ -271,7 +271,7 @@ require('lazy').setup({
   { 'numToStr/Comment.nvim', opts = {} },
 
   {
-    'norcalli/nvim-colorizer.lua',
+    'catgoose/nvim-colorizer.lua',
     -- config = function()
     --   require('colorizer').setup()
     -- end,
@@ -662,6 +662,8 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      vim.lsp.config('*', { capabilities = capabilities })
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -671,19 +673,35 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      ---@type table<string, vim.lsp.Config>
       local servers = {
         clangd = {
           cmd = { '/home/jdev/.local/share/nvim/mason/bin/clangd', '--header-insertion=never' },
         },
         -- gopls = {},
-        pyright = {
-          python = {
-            analysis = {
-              typeCheckingMode = 'off',
+
+        -- Enable ty for type checking
+        ty = {},
+
+        -- Enable ruff for linting/formatting
+        ruff = {
+          init_options = {
+            settings = {
+              fixAll = true,
+              lint = {
+                ignore = { 'F401' },
+              },
             },
           },
         },
-        debugpy = {},
+        -- pyright = {
+        --   enabled = true,
+        --   python = {
+        --     analysis = {
+        --       typeCheckingMode = 'off',
+        --     },
+        --   },
+        -- },
         svelte = {},
         tailwindcss = {},
         -- rust_analyzer = {},
@@ -695,17 +713,38 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- ts_ls = {},
 
+        -- Special Lua Config, as recommended by neovim help docs
         lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
+          on_init = function(client)
+            client.server_capabilities.documentFormattingProvider = false -- Disable formatting (formatting is done by stylua)
+
+            if client.workspace_folders then
+              local path = client.workspace_folders[1].name
+              if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+                return
+              end
+            end
+
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+              runtime = {
+                version = 'LuaJIT',
+                path = { 'lua/?.lua', 'lua/?/init.lua' },
+              },
+              workspace = {
+                checkThirdParty = false,
+                -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
+                --  See https://github.com/neovim/nvim-lspconfig/issues/3189
+                library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
+                  '${3rd}/luv/library',
+                  '${3rd}/busted/library',
+                }),
+              },
+            })
+          end,
+          ---@type lspconfig.settings.lua_ls
           settings = {
             Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              format = { enable = false }, -- Disable formatting (formatting is done by stylua)
             },
           },
         },
@@ -718,6 +757,7 @@ require('lazy').setup({
       --
       --  You can press `g?` for help in this menu.
       require('mason').setup()
+      require('mason-lspconfig').setup {}
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
@@ -726,25 +766,18 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'clangd',
         'clang-format',
-        -- 'pyright'
+        'ty',
+        'ruff',
+        'debugpy',
+        -- 'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      require('mason-lspconfig').setup {
-
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
-
-      require('lspconfig').qmlls.setup {}
+      for name, server in pairs(servers) do
+        vim.lsp.config(name, server)
+        vim.lsp.enable(name)
+      end
+      -- vim.lsp.config['qmlls'].setup {}
     end,
   },
 
@@ -776,7 +809,8 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
+        -- python = { 'isort', 'black' },
+        python = { 'ruff' },
         c = { 'clang_format' },
         cpp = { 'clang_format' },
         -- markdown = { 'markdownlint' },
