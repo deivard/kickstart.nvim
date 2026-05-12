@@ -976,6 +976,8 @@ require('lazy').setup({
     end,
   },
 
+  -- { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+
   {
     'luisiacc/gruvbox-baby',
     priority = 1000,
@@ -1085,6 +1087,7 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    tag = 'v0.10.0',
     build = ':TSUpdate',
     opts = {
       ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'vim', 'vimdoc', 'typescript', 'svelte' },
@@ -1106,7 +1109,7 @@ require('lazy').setup({
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
       ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.config').setup(opts)
+      require('nvim-treesitter.configs').setup(opts)
 
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
