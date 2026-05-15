@@ -529,23 +529,25 @@ require('lazy').setup({
       { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
-      local border = {
-        { '╭', 'FloatBorder' },
-        { '─', 'FloatBorder' },
-        { '╮', 'FloatBorder' },
-        { '│', 'FloatBorder' },
-        { '╯', 'FloatBorder' },
-        { '─', 'FloatBorder' },
-        { '╰', 'FloatBorder' },
-        { '│', 'FloatBorder' },
-      }
-      -- To instead override globally
-      local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-        opts = opts or {}
-        opts.border = opts.border or border
-        return orig_util_open_floating_preview(contents, syntax, opts, ...)
-      end
+      -- local border = {
+      --   { '╭', 'FloatBorder' },
+      --   { '─', 'FloatBorder' },
+      --   { '╮', 'FloatBorder' },
+      --   { '│', 'FloatBorder' },
+      --   { '╯', 'FloatBorder' },
+      --   { '─', 'FloatBorder' },
+      --   { '╰', 'FloatBorder' },
+      --   { '│', 'FloatBorder' },
+      -- }
+      --
+      -- -- To instead override globally
+      -- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+      -- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+      --   opts = opts or {}
+      --   opts.border = opts.border or border
+      --   return orig_util_open_floating_preview(contents, syntax, opts, ...)
+      -- end
+
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -626,7 +628,9 @@ require('lazy').setup({
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
+          map('K', function()
+            vim.lsp.buf.hover { border = 'rounded' }
+          end, 'Hover Documentation')
           mapi('<C-k>', vim.lsp.buf.signature_help, 'Hover documentation')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
@@ -978,16 +982,107 @@ require('lazy').setup({
 
   -- { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
 
+  -- {
+  --   'luisiacc/gruvbox-baby',
+  --   priority = 1000,
+  --   init = function()
+  --     vim.g.gruvbox_baby_function_style = 'NONE'
+  --     -- vim.g.gruvbox_baby_telescope_theme = 1
+  --     vim.g.gruvbox_baby_transparent_mode = 1
+  --     -- vim.g.gruvbox_baby_keyword_style = 'NONE'
+  --     vim.cmd.colorscheme 'gruvbox-baby'
+  --     vim.opt.cursorline = false
+  --   end,
+  -- },
+
   {
-    'luisiacc/gruvbox-baby',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
-    init = function()
-      vim.g.gruvbox_baby_function_style = 'NONE'
-      -- vim.g.gruvbox_baby_telescope_theme = 1
-      vim.g.gruvbox_baby_transparent_mode = 1
-      -- vim.g.gruvbox_baby_keyword_style = 'NONE'
-      vim.cmd.colorscheme 'gruvbox-baby'
-      vim.opt.cursorline = false
+    config = function()
+      require('gruvbox').setup {
+        bold = false,
+        transparent_mode = true,
+        italic = {
+          strings = false,
+          comments = true,
+          operators = false,
+          folds = true,
+          emphasis = true,
+        },
+        contrast = '',
+
+        overrides = {
+          ['@function'] = { fg = '#eebd35' },
+          ['@function.call'] = { fg = '#eebd35' },
+          ['@function.builtin'] = { fg = '#eebd35' },
+          ['@function.method'] = { fg = '#eebd35' },
+          ['@function.method.call'] = { fg = '#eebd35' },
+          ['Function'] = { fg = '#eebd35' },
+
+          ['@string'] = { fg = '#98971a' },
+          ['@character'] = { fg = '#98971a' },
+          ['String'] = { fg = '#98971a' },
+
+          ['@variable'] = { fg = '#7fa2ac' },
+          ['@variable.builtin'] = { fg = '#458588' },
+          ['@variable.python'] = { fg = '#ebdbb2' },
+
+          ['@constant'] = { fg = '#d4879c' },
+          ['@constant.builtin'] = { fg = '#d4879c' },
+          ['Constant'] = { fg = '#d4879c' },
+
+          ['@type'] = { fg = '#8ec07c' },
+          ['@type.builtin'] = { fg = '#458588' },
+          ['@constructor'] = { fg = '#8ec07c' },
+          ['Type'] = { fg = '#8ec07c' },
+
+          ['@number'] = { fg = '#b16286' },
+          ['@number.float'] = { fg = '#fabd2f' },
+          ['Number'] = { fg = '#b16286' },
+
+          ['@boolean'] = { fg = '#d65d0e' },
+          ['Boolean'] = { fg = '#d65d0e' },
+
+          ['Comment'] = { fg = '#665c54', italic = true },
+          ['@comment'] = { fg = '#665c54', italic = true },
+
+          ['@variable.parameter'] = { fg = '#458588' },
+          ['@variable.member'] = { fg = '#7fa2ac' },
+          ['@field'] = { fg = '#7fa2ac' },
+          ['@property'] = { fg = '#458588' },
+          ['@module'] = { fg = '#7fa2ac' },
+          ['@namespace'] = { fg = '#7fa2ac' },
+
+          ['@keyword'] = { fg = '#fb4934', italic = true },
+          ['@keyword.function'] = { fg = '#fb4934', italic = true },
+          ['@keyword.return'] = { fg = '#fb4934', italic = true },
+          ['@keyword.conditional'] = { fg = '#fb4934' },
+          ['@keyword.repeat'] = { fg = '#fb4934' },
+          ['@keyword.exception'] = { fg = '#fb4934' },
+          ['@keyword.import'] = { fg = '#fb4934' },
+          pythonImport = { fg = '#fb4934' },
+          pythonInclude = { fg = '#fb4934' },
+
+          ['@attribute.python'] = { fg = '#d65d0e' },
+
+          ['@lsp.type.function'] = { fg = '#eebd35' },
+          ['@lsp.type.method'] = { fg = '#eebd35' },
+          ['@lsp.type.variable'] = { fg = '#7fa2ac' },
+          ['@lsp.type.parameter'] = { fg = '#458588' },
+          ['@lsp.type.property'] = { fg = '#458588' },
+          ['@lsp.type.class'] = { fg = '#8ec07c' },
+          ['@lsp.type.enum'] = { fg = '#8ec07c' },
+          ['@lsp.type.enumMember'] = { fg = '#8ec07c' },
+          ['@lsp.type.interface'] = { fg = '#8ec07c' },
+          ['@lsp.type.struct'] = { fg = '#8ec07c' },
+          ['@lsp.type.type'] = { fg = '#8ec07c' },
+          ['@lsp.type.typeParameter'] = { fg = '#8ec07c' },
+          ['@lsp.type.namespace'] = { fg = '#8ec07c' },
+          ['@lsp.type.decorator'] = { fg = '#d65d0e' },
+          ['@lsp.type.macro'] = { fg = '#d65d0e' },
+        },
+      }
+      vim.cmd 'colorscheme gruvbox'
     end,
   },
 
@@ -1110,7 +1205,7 @@ require('lazy').setup({
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
       -- ---@diagnostic disable-next-line: missing-fields
-      -- require('nvim-treesitter.config').setup(opts)
+      require('nvim-treesitter').setup(opts)
 
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
