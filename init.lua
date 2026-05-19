@@ -1186,7 +1186,7 @@ require('lazy').setup({
     -- tag = 'v0.10.0',
     build = ':TSUpdate',
     opts = {
-      ensure_installed = { 'bash', 'c', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'vim', 'vimdoc', 'typescript', 'svelte' },
+      ensure_installed = { 'bash', 'html', 'luadoc', 'typescript', 'svelte' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
