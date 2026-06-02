@@ -413,6 +413,9 @@ require('lazy').setup({
           },
         },
         defaults = {
+          preview = {
+            filesize_limit = 5, -- MB
+          },
           mappings = {
             -- ['q'] = require('telescope.actions').close
             n = {
@@ -685,12 +688,18 @@ require('lazy').setup({
         -- gopls = {},
 
         -- Enable ty for type checking
-        ty = {},
+        ty = {
+          settings = {
+            ty = {
+              completions = { autoImport = false },
+            },
+          },
+        },
 
         -- Enable ruff for linting/formatting
         ruff = {
-          init_options = {
-            settings = {
+          settings = {
+            ruff = {
               fixAll = true,
               lint = {
                 ignore = { 'F401' },
@@ -799,7 +808,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
@@ -814,7 +823,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { 'isort', 'black' },
-        python = { 'ruff' },
+        python = { 'ruff', 'ruff_format' },
         c = { 'clang_format' },
         cpp = { 'clang_format' },
         -- markdown = { 'markdownlint' },
