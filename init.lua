@@ -1371,3 +1371,31 @@ vim.filetype.add {
 }
 
 vim.opt.cmdheight = 0
+
+-- Move through quickfix and loc lists, cycle and endpoints
+local function qf_nav(direction)
+  local loc_open = vim.fn.getloclist(0, { winid = 0 }).winid ~= 0
+  local qf_open = vim.fn.getqflist({ winid = 0 }).winid ~= 0
+
+  local cmds = loc_open and { next = 'lnext', prev = 'lprevious', first = 'lfirst', last = 'llast' }
+    or qf_open and { next = 'cnext', prev = 'cprevious', first = 'cfirst', last = 'clast' }
+    or nil
+
+  if not cmds then
+    return
+  end
+
+  local ok, err = pcall(vim.cmd, direction == 'down' and cmds.next or cmds.prev)
+  if not ok then
+    if err:match 'E553' then
+      vim.cmd(direction == 'down' and cmds.first or cmds.last)
+    end
+  end
+end
+
+vim.keymap.set('n', '<C-d>', function()
+  qf_nav 'down'
+end, { desc = 'Next qf/loc item' })
+vim.keymap.set('n', '<C-u>', function()
+  qf_nav 'up'
+end, { desc = 'Prev qf/loc item' })
