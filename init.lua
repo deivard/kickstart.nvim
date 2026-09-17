@@ -1399,3 +1399,10 @@ end, { desc = 'Next qf/loc item' })
 vim.keymap.set('n', '<C-u>', function()
   qf_nav 'up'
 end, { desc = 'Prev qf/loc item' })
+
+vim.keymap.set(
+  vim.keymap.set('n', '<leader>hb', ':Gitsigns blame_line<CR>') '<leader>hg',
+  ':Gitsigns toggle_deleted<CR>:Gitsigns toggle_linehl<CR>:Gitsigns toggle_word_diff<CR>:Gitsigns setloclist<CR>',
+  { desc = 'Toggle a collection of Gitsigns diff functionality' }
+)
+vim.keymap.set('n', '<leader>hb', ':Gitsigns blame_line<CR>', { desc = 'Blame Line' })
