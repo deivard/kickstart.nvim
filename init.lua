@@ -1401,7 +1401,8 @@ vim.keymap.set('n', '<C-u>', function()
 end, { desc = 'Prev qf/loc item' })
 
 vim.keymap.set(
-  vim.keymap.set('n', '<leader>hb', ':Gitsigns blame_line<CR>') '<leader>hg',
+  'n',
+  '<leader>hg',
   ':Gitsigns toggle_deleted<CR>:Gitsigns toggle_linehl<CR>:Gitsigns toggle_word_diff<CR>:Gitsigns setloclist<CR>',
   { desc = 'Toggle a collection of Gitsigns diff functionality' }
 )
